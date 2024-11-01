@@ -2,6 +2,7 @@ import React from 'react';
 import SearchBar from './components/SearchBar';
 import ProfileSection from './components/ProfileSection';
 import GraphSection from './components/GraphSection';
+import Auth from './components/Auth';
 
 const App = () => {
   return (
@@ -15,6 +16,10 @@ const App = () => {
       </div>
       <div>
         <GraphSection />
+      </div>
+
+      <div>
+        <Auth />
       </div>
     </div>
   );
