@@ -1,0 +1,51 @@
+INSERT INTO revenue (transaction_id, name, revenue_generated, date, category) VALUES
+(1, 'ADAMH Franklin County Levy Funds', 8777405, '2020-01-01', 'Government'),
+(2, 'State of Ohio', 3243850, '2020-01-01', 'State Funding'),
+(3, 'Medicaid & Medicare', 2199125, '2020-01-01', 'Federal Funding'),
+(4, 'Federal Government', 40725, '2020-01-01', 'Federal Funding'),
+(5, 'Community Shelter Board', 451182, '2020-01-01', 'Community Support'),
+(6, 'Court & Forensic Fee for Service', 313670, '2020-01-01', 'Service Revenue'),
+(7, 'Foundation/Individual Contributions', 108289, '2020-01-01', 'Donations'),
+(8, 'Other', 40454, '2020-01-01', 'Miscellaneous'),
+(9, 'PPP/COVID Relief Funds', 3459267, '2020-01-01', 'Relief Funds'),
+(10, 'Total Revenue', 18633967, '2020-01-01', 'Total'),
+-- Data for 2021
+(11, 'ADAMH Franklin County Levy Funds', 8431733, '2021-01-01', 'Government'),
+(12, 'State of Ohio', 3869832, '2021-01-01', 'State Funding'),
+(13, 'Medicaid & Medicare', 2335877, '2021-01-01', 'Federal Funding'),
+(14, 'Federal Government', 25363, '2021-01-01', 'Federal Funding'),
+(15, 'Community Shelter Board', 750374, '2021-01-01', 'Community Support'),
+(16, 'Court & Forensic Fee for Service', 294892, '2021-01-01', 'Service Revenue'),
+(17, 'Foundation/Individual Contributions', 133209, '2021-01-01', 'Donations'),
+(18, 'Other', 80452, '2021-01-01', 'Miscellaneous'),
+(19, 'PPP/COVID Relief Funds', 2355081, '2021-01-01', 'Relief Funds'),
+(20, 'Total Revenue', 18276813, '2021-01-01', 'Total');
+
+
+
+INSERT INTO expenses (transaction_id, name, amount_expensed, year, category) VALUES
+(1, 'Emergency Services', 12601105, 2020, 'Program Services'),
+(2, 'Forensic and Family Psychology', 1258945, 2020, 'Program Services'),
+(3, 'Residential/Treatment Services', 1006754, 2020, 'Program Services'),
+(4, 'General & Administrative', 2504913, 2020, 'Administrative'),
+(5, 'Total Expenses', 17371717, 2020, 'Total'),
+-- Data for 2021
+(6, 'Emergency Services', 12582715, 2021, 'Program Services'),
+(7, 'Forensic and Family Psychology', 1373002, 2021, 'Program Services'),
+(8, 'Residential/Treatment Services', 1099387, 2021, 'Program Services'),
+(9, 'General & Administrative', 2984173, 2021, 'Administrative'),
+(10, 'Total Expenses', 18039277, 2021, 'Total');
+
+
+
+INSERT INTO assets (Current_Year, Temporarily_restricted_net_assets, Net_assets_beginning_of_year, Net_assets_end_of_year) VALUES
+(2020, 50000, 2820057, 4122330),
+(2021, 50000, 4122330, 4373396);
+
+
+INSERT INTO donors (FName, LName, Contribution_Year) VALUES
+('John', 'Doe', 2020),
+('Jane', 'Smith', 2020),
+('Robert', 'Johnson', 2021),
+('Linda', 'Williams', 2021),
+('Michael', 'Brown', 2021);
