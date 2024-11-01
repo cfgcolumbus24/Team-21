@@ -6,7 +6,7 @@ const SearchBar = () => {
     <div className="flex items-center bg-gray-100 rounded-full p-2 shadow-md max-w-md mx-auto">
       <input
         type="text"
-        placeholder="Search..."
+        placeholder="Enter query..."
         className="bg-gray-100 outline-none w-full px-4 py-2 rounded-full text-gray-700"
       />
       <button className="text-gray-500 p-2">

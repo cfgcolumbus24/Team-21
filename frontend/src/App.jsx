@@ -1,3 +1,4 @@
+// import './output.css';
 import React from 'react';
 import SearchBar from './components/SearchBar';
 import ProfileSection from './components/ProfileSection';
