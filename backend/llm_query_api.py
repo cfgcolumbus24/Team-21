@@ -78,9 +78,7 @@ async def query_database(data: Dict):
     # Step 2: Query Supabase database
     try:
         result = supabase.rpc("exec_sql", {'sql_query': sql_query}).execute()
-        if result.error:
-            raise Exception(result.error)
-        return {"data": result.data}
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database query error: {e}")
 

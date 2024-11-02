@@ -7,7 +7,7 @@ import NavBar from '../components/NavBar';
 const LandingPage = () => {
   return (
     <div className="min-h-screen w-full bg-gray-50 p-8 flex flex-col gap-6">
-      <NavBar />
+        <NavBar />
       {/* Header: Dashboard Title */}
       <h1 className="text-3xl font-bold text-center mb-6">Dashboard</h1>
 
@@ -24,12 +24,6 @@ const LandingPage = () => {
         <div className=" flex justify-center w-full md:w-2/3">
           <GraphSection />
         </div>
-      </div>
-
-      {/* Bottom Area for Search Bar and Auth */}
-      <div className="flex flex-col items-center gap-4 mt-6">
-        {/* Search Bar */}
-        <SearchBar />
       </div>
     </div>
   );
