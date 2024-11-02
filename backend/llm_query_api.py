@@ -57,14 +57,14 @@ def generate_sql_query(user_query: str) -> str:
     sql_query = response.choices[0].message['content'].strip()
     return sql_query
 
-def generate_text_output(user_query: str, sql_query: str, data) -> str:
+def generate_text_output(data, sql_query: str, user_query: str) -> str:
     prompt = f"""
-    Using the raw data below, answer the following question with its returned data below:
-    Question: "{user_query}"
-    Sql_query: "{sql_query}"
+    Given the following data returned from the following sql query and following user query, give a short summary of the data:
     Data: "{data}"
+    SQL_query: "{sql_query}"
+    User_query: "{user_query}"
     
-    Text Summary:
+    Text Summarization:
     """
     
     # Update for chat-based interaction with gpt-3.5-turbo
