@@ -120,12 +120,12 @@ const SearchBar = () => {
   return (
     <div className="flex flex-col h-screen w-full bg-gray-100 text-gray-700 p-6">
       <div ref={resultsRef} className="flex-1 overflow-auto p-8">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Database Search Interface</h2>
+        <h1 className="mb-1 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center">Netcare Search</h1>
 
         {/* Search Results */}
         <div className="bg-gray-100 rounded-lg p-6 max-w-full mx-auto text-gray-800 space-y-4 overflow-y-auto h-[75vh]">
           {resultsHistory.length === 0 && (
-            <p className="text-center italic text-gray-400">Your search results will appear here...</p>
+            <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">Your search results will appear here...</p>
           )}
           
           {resultsHistory.map((result, index) => (

@@ -9,7 +9,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
-      console.log(session);
     });
 
     return () => authListener.subscription.unsubscribe();
