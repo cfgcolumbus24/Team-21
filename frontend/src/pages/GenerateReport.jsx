@@ -9,7 +9,7 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen w-full bg-gray-50 p-8 flex flex-col">
         <div className="justify-center w-full">
-          <GraphSection />
+          <GenerateReport />
         </div>
     </div>
   );
