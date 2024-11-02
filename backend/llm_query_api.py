@@ -23,12 +23,12 @@ class QueryRequest(BaseModel):
 # Helper function to generate SQL query using LLM
 def generate_sql_query(user_query: str) -> str:
     prompt = f"""
-    Convert the following natural language query into SQL:
+    Convert the following natural language query into SQL string:
     Query: "{user_query}"
     Database structure:
     Table 1 - patient: Columns (patient_id: int4, name: varchar, age: int4, length_of_stay: int4, gender: text, transgender_identity: text, sexual_orientation: text, race_or_ethnicity: text)
     
-    SQL Query:
+    SQL Query string:
     """
     
     # Update for chat-based interaction with gpt-3.5-turbo
@@ -60,11 +60,11 @@ async def query_database(user_query: str = Query(..., description="User's search
 
     # Step 2: Query Supabase database
     try:
-        result = supabase.rpc("exec_sql", {"sql_query": sql_query}).execute()
+        result = supabase.rpc("exec_sql", {'sql_query': sql_query}).execute()
         if result.error:
             raise Exception(result.error)
         return {"data": result.data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database query error: {e}")
 
-# To run: `uvicorn script_name:app --reload`
+# To run: `uvicorn llm_query_api:app --reload`
