@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, AreaChart, Area } from 'recharts';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, AreaChart, Area, Legend } from 'recharts';
 
 const data = [
   { name: 'Page A', uv: 400, pv: 2400, amt: 2400 },
@@ -13,21 +13,26 @@ const data = [
 
 const GraphSection = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
       <div style={{ width: '45%', height: 400 }}>
+        {/* Title for the Line Chart */}
+        <h2 style={{ color: "black"}}>UV and PV Line Chart</h2>
         <ResponsiveContainer>
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="5 5" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
+            <Legend />
             <Line type="monotone" dataKey="uv" stroke="#8884d8" />
             <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
           </LineChart>
         </ResponsiveContainer>
       </div>
-      
+
       <div style={{ width: '45%', height: 400 }}>
+        {/* Title for the Area Chart */}
+        <h2 style={{ color: "black"}}>Stacked Area Chart</h2>
         <ResponsiveContainer>
           <AreaChart
             data={data}
@@ -42,13 +47,13 @@ const GraphSection = () => {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
+            <Legend />
             <Area type="monotone" dataKey="uv" stackId="1" stroke="#8884d8" fill="#8884d8" />
             <Area type="monotone" dataKey="pv" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
             <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      {/* Add more charts or content here if needed */}
     </div>
   );
 };
