@@ -2,10 +2,12 @@ import React from 'react';
 import SearchBar from '../components/SearchBar';
 import ProfileSection from '../components/ProfileSection';
 import GraphSection from '../components/GraphSection';
+import NavBar from '../components/NavBar';
 
 const LandingPage = () => {
   return (
     <div className="min-h-screen w-full bg-gray-50 p-8 flex flex-col gap-6">
+      <NavBar />
       {/* Header: Dashboard Title */}
       <h1 className="text-3xl font-bold text-center mb-6">Dashboard</h1>
 
