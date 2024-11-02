@@ -47,7 +47,7 @@ const MyPieChart = () => {
           <LabelList 
             dataKey="name" 
             position="outside" 
-            style={{ fontFamily: 'Arial, Helvetica, sans-serif', fill: '#555555', fontWeight: 'bold' }} 
+            style={{ fontFamily: 'Arial, Helvetica, sans-serif', fill: 'black', fontWeight: 'bold' }} 
           />
           </Pie>
           <Tooltip />
