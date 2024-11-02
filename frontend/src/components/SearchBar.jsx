@@ -43,7 +43,7 @@ const SearchBar = () => {
       <div className="flex-1 overflow-auto p-8">
         <h2 className="text-2xl font-semibold mb-4 text-center">Database Search Interface</h2>
         <div className="bg-gray-100 rounded-lg p-6 max-w-3xl mx-auto text-gray-800">
-          {selectedFormat === 'text' && <TextResult data={results} />}
+          {(selectedFormat === 'text' || selectedFormat ==='graph') && <TextResult data={results} />}
           {selectedFormat === 'table' && <TableResult data={results} />}
           {results.length === 0 && (
             <p className="text-center italic text-gray-400">Your search results will appear here...</p>
