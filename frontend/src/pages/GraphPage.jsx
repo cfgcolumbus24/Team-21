@@ -1,0 +1,16 @@
+import React from 'react';
+import GraphSection from '../components/GraphSection';
+import NavBar from '../components/NavBar';
+
+const LandingPage = () => {
+  return (
+    <div className="min-h-screen w-full bg-gray-50 p-8 flex flex-col">
+      <NavBar />
+        <div className="order-2 md:order-1 flex justify-center w-full">
+          <GraphSection />
+        </div>
+    </div>
+  );
+};
+
+export default LandingPage;
