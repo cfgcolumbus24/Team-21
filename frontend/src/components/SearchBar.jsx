@@ -18,12 +18,12 @@ const SearchBar = () => {
     if (query.trim() === '') return;
 
     try {
-      const response = await fetch('http://your-backend-url/api/search', { // Replace with your backend URL
+      const response = await fetch('http://127.0.0.1:8000/query', { // Replace with your backend URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query, format: selectedFormat }),
+        body: JSON.stringify({ user_query: query, format: selectedFormat }),
       });
 
       const data = await response.json();
