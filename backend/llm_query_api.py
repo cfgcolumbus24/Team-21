@@ -5,6 +5,8 @@ from pydantic import BaseModel
 import openai
 from supabase import create_client, Client
 from fastapi import Query
+from typing import Dict
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load environment variables
 load_dotenv()
@@ -15,6 +17,14 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 # Initialize FastAPI and Supabase client
 app = FastAPI()
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Replace with your frontend domain(s)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
+)
 
 # Define the input model for API
 class QueryRequest(BaseModel):
@@ -46,8 +56,15 @@ def generate_sql_query(user_query: str) -> str:
     return sql_query
 
 # API Endpoint
-@app.get("/query")  # Ensure we're using GET here
-async def query_database(user_query: str = Query(..., description="User's search query")):
+@app.post("/query") 
+async def query_database(data: Dict):
+
+    user_query = data['user_query']
+    format = data['format']
+
+    print(format)
+    print(user_query)
+    
     # Debugging line to confirm received query
     print(f"Received user query: {user_query}")
     
