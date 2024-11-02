@@ -5,12 +5,11 @@ import GraphPage from './pages/GraphPage';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import SupabaseProvider from './supabaseContext';
+
 
 
 const App = () => {
   return (
-    <SupabaseProvider>
       <Router>
         <Routes>
             <Route path = "/auth" element = {<Auth/>} />
@@ -20,9 +19,6 @@ const App = () => {
             <Route path = "/profile" element = {<ProfilePage/>} />
         </Routes>
     </Router>
-
-    </SupabaseProvider>
-
    )
   };
 
