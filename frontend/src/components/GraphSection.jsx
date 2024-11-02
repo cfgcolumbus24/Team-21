@@ -50,7 +50,7 @@ const GraphSection = () => {
 
   return (
     <div>
-    <div>
+    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
       <h1 style={{ 
                   color: 'black',           // Sets the text color
                   fontSize: '36px',         // Sets the font size
