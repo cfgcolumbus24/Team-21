@@ -2,10 +2,12 @@ import React from 'react';
 import SearchBar from '../components/SearchBar';
 import ProfileSection from '../components/ProfileSection';
 import GraphSection from '../components/GraphSection';
+import NavBar from '../components/NavBar';
 
 const LandingPage = () => {
   return (
     <div className="min-h-screen w-full bg-gray-50 p-8 flex flex-col gap-6">
+      <NavBar />
       {/* Header: Dashboard Title */}
       <h1 className="text-3xl font-bold text-center mb-6">Dashboard</h1>
 
@@ -19,7 +21,7 @@ const LandingPage = () => {
         </div>
 
         {/* Graph Section (Below Profile on smaller screens, left-aligned on larger screens) */}
-        <div className="order-2 md:order-1 flex justify-center w-full md:w-2/3">
+        <div className=" flex justify-center w-full md:w-2/3">
           <GraphSection />
         </div>
       </div>

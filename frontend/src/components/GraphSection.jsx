@@ -67,7 +67,7 @@ const GraphSection = () => {
         marginTop: '20px' // Optional, for better spacing around the entire container
     }}>
       <div style={{ 
-          width: '45%', 
+          width: '100%', 
           height: 800, 
           display: 'flex', 
           alignItems: 'center',
@@ -114,7 +114,7 @@ const GraphSection = () => {
       </div>
   
       <div style={{ 
-          width: '45%', 
+          width: '100%', 
           height: 800, 
           display: 'flex',
           alignItems: 'center',
