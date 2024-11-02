@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const TableGender = () => {
+const TransgenderDischarge = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -116,4 +116,4 @@ const TableGender = () => {
   );
 };
 
-export default TableGender;
+export default TransgenderDischarge;

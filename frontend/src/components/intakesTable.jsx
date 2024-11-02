@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const NumClients = () => {
+const IntakesTable = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -91,4 +91,4 @@ const NumClients = () => {
   );
 };
 
-export default NumClients;
+export default IntakesTable;

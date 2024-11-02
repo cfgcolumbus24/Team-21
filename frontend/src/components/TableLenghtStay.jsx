@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const TableGen = () => {
+const TableLengthStay = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -73,7 +73,7 @@ const TableGen = () => {
               } hover:bg-blue-50`}
             >
               <td className="py-4 px-6 border-b border-gray-200 text-gray-800">
-                {key}
+              Average Length of Stay
               </td>
               <td className="py-4 px-6 border-b border-gray-200 text-gray-800">
                 {value}
@@ -86,4 +86,4 @@ const TableGen = () => {
   );
 };
 
-export default TableGen;
+export default TableLengthStay;
