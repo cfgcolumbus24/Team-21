@@ -1,5 +1,7 @@
 import React from 'react';
 import MyBarChart from '../components/MyBarChart';
+import LineGraph from '../components/LineGraph';
+import MyPieChart from '../components/MyPieChart';
 import { ResponsiveContainer } from 'recharts';
 
 const headerStyle = {
@@ -9,7 +11,10 @@ const headerStyle = {
     fontWeight: 'bold', // Makes the text bold
     fontFamily: '"Roboto", sans-serif' // Apply Roboto font
 };
-
+// total patients per month as a bar graph
+// total patients by month cumulative line graph
+// revenue based on sources stacked bar graph
+// demographic pie chart
 
 
 const GraphSection = () => {
@@ -47,7 +52,7 @@ const GraphSection = () => {
         </ResponsiveContainer>
         <h2 style={headerStyle}>Scatter</h2>
         <ResponsiveContainer>
-          <MyBarChart/>
+          <LineGraph/>
         </ResponsiveContainer>
       </div>
   
@@ -61,7 +66,7 @@ const GraphSection = () => {
       }}>
         <h2 style={headerStyle}>Line</h2>
         <ResponsiveContainer>
-          <MyBarChart/>
+          <MyPieChart/>
         </ResponsiveContainer>
         <h2 style={headerStyle}>Bar</h2>
         <ResponsiveContainer>

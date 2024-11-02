@@ -1,45 +1,68 @@
-import React from 'react';
-import { BarChart, Bar, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, AreaChart, Area, Legend } from 'recharts';
+import React, { useState, useEffect } from 'react';
+import { LineChart, ResponsiveContainer, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-const data = [
-  { name: 'Page A', uv: 400, pv: 2400, amt: 2400 },
-  { name: 'Page B', uv: 300, pv: 1398, amt: 2210 },
-  { name: 'Page C', uv: 200, pv: 9800, amt: 2290 },
-  { name: 'Page D', uv: 278, pv: 3908, amt: 2000 },
-  { name: 'Page E', uv: 189, pv: 4800, amt: 2181 },
-  { name: 'Page F', uv: 239, pv: 3800, amt: 2500 },
-  { name: 'Page G', uv: 349, pv: 4300, amt: 2100 },
-];
+const generateData = () => {
+  let basePatients = 1000; // Starting number of patients for January
+  let baseAmount = 500;    // Starting amount for January
+  return [
+    { name: 'January', patients: basePatients, amt: baseAmount },
+    { name: 'February', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+    { name: 'March', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+    { name: 'April', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+    { name: 'May', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+    { name: 'June', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+    { name: 'July', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+    { name: 'August', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+    { name: 'September', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+    { name: 'October', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+    { name: 'November', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+    { name: 'December', patients: basePatients += Math.floor(Math.random() * 1000), amt: baseAmount += Math.floor(Math.random() * 500) },
+  ];
+};
 
-// stackedbar chart would be good for the showing the funding sources per month
 
-const BarChart = () => {
+const LineGraph = () => {
+  const [data, setData] = useState(generateData());
+
+  useEffect(() => {
+    // Dynamically update data every 5 seconds (as an example)
+    const interval = setInterval(() => setData(generateData()), 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-      <div style={{ 
-          width: '100%', 
-          height: 800, 
-          display: 'flex', 
-          alignItems: 'center',
-          flexDirection: 'column',
-          border: '1px solid #ccc', // Adding a border
-          padding: '20px', // Optional, for padding inside the div
-          borderRadius: '10px', // Optional, for rounded corners
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)' // Optional, for a subtle shadow
-      }}>               
-        <h2 style={{ color: "black", marginTop: '30px' }}>StackedBar Chart</h2>
-        <ResponsiveContainer>
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="5 5" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-            <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+    <div style={{ 
+      width: '100%', 
+      height: '100%', 
+      display: 'flex', 
+      alignItems: 'center',
+      flexDirection: 'column',
+      border: '1px solid #ccc',
+      padding: '20px',
+      borderRadius: '10px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    }}>               
+      <h2 style={{ color: "black", marginTop: '30px' }}>Monthly Patient Data</h2>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" angle={-45} textAnchor="end" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="patients" stroke="#8884d8" activeDot={{ r: 8 }} />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );  
 };
 
-export default BarChart;
+export default LineGraph;
