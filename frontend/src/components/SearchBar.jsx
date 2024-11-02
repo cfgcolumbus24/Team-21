@@ -209,17 +209,6 @@ const SearchBar = () => {
             Search
           </button>
 
-          {/* Speech-to-Text Button */}
-          {/* <button
-            type="button"
-            onClick={handleSpeechToText}
-            className={`${
-              isListening ? 'bg-red-600' : 'bg-green-600'
-            } text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition duration-200 shadow-md`}
-          >
-            {isListening ? 'Stop' : 'Talk'}
-          </button> */}
-
           {/* Export to PDF Button */}
           <button
             type="button"
