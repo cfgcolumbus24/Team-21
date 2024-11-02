@@ -42,7 +42,8 @@ def generate_sql_query(user_query: str) -> str:
     Convert the following natural language query into an SQL string:
     Query: "{user_query}"
     Database structure:
-    Table 1 - patient: Columns (patient_id: int4, name: varchar, age: int4, length_of_stay: int4, gender: text, transgender_identity: text, sexual_orientation: text, race_or_ethnicity: text)
+
+    Table 1 - patient: Columns (patient_id: int4, name: varchar, age: int4, length_of_stay: int4, gender: text, transgender_identity: text, sexual_orientation: text, race_or_ethnicity: text, diagnosis: text, patient_notes: text, dialogue: text, treatment: text)
     
     SQL Query string:
     """
