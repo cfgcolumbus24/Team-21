@@ -1,23 +1,24 @@
-// src/components/SearchBar.jsx
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import TextResult from './subComponents/TextResult';
 import TableResult from './subComponents/TableResult';
-import html2pdf from 'html2pdf.js';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [selectedFormat, setSelectedFormat] = useState('');
   const [resultsHistory, setResultsHistory] = useState([]);
-  const resultsRef = useRef(null); // Ref for exportable section
+  const [isListening, setIsListening] = useState(false);
 
+  // Handle manual text input change
   const handleInputChange = (e) => {
     setQuery(e.target.value);
   };
 
+  // Handle format selection
   const handleCheckboxChange = (e) => {
     setSelectedFormat(e.target.value);
   };
 
+  // Handle search form submission
   const handleSearch = async (e) => {
     e.preventDefault();
     if (query.trim() === '') return;
@@ -28,9 +29,12 @@ const SearchBar = () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/query', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ user_query: query, format: selectedFormat }),
       });
+
       const data = await response.json();
       setResultsHistory((prevResults) => {
         const updatedResults = [...prevResults];
@@ -40,32 +44,43 @@ const SearchBar = () => {
     } catch (error) {
       console.error('Error sending search query:', error);
     }
+
     setQuery('');
     setSelectedFormat('');
   };
 
-  // Export to PDF with html2pdf.js
-  const exportToPDF = () => {
-    const element = resultsRef.current;
-    html2pdf()
-      .from(element)
-      .set({
-        margin: 1,
-        filename: 'session_history.pdf',
-        html2canvas: { scale: 2 },
-        jsPDF: { orientation: 'portrait' },
-      })
-      .save();
+  // Voice recognition logic
+  const startListening = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Your browser doesn't support speech recognition.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setQuery((prevQuery) => `${prevQuery} ${transcript}`);
+    };
+
+    recognition.start();
   };
 
   return (
     <div className="flex flex-col h-screen w-full bg-gray-100 text-gray-700 p-6">
-      <div className="flex-1 overflow-auto p-8" ref={resultsRef}>
+      <div className="flex-1 overflow-auto p-8">
         <h2 className="text-2xl font-semibold mb-4 text-center">Database Search Interface</h2>
-        <div className="bg-gray-100 rounded-lg p-6 max-w-3xl mx-auto text-gray-800">
-          {(selectedFormat === 'text' || selectedFormat ==='graph') && <TextResult data={results} />}
-          {selectedFormat === 'table' && <TableResult data={results} />}
-          {results.length === 0 && (
+
+        {/* Search Results */}
+        <div className="bg-gray-100 rounded-lg p-6 max-w-full mx-auto text-gray-800 space-y-4 overflow-y-auto h-[75vh]">
+          {resultsHistory.length === 0 && (
             <p className="text-center italic text-gray-400">Your search results will appear here...</p>
           )}
           
@@ -89,9 +104,13 @@ const SearchBar = () => {
         </div>
       </div>
 
-      {/* Controls and Export Button */}
-      <form onSubmit={handleSearch} className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-3xl bg-gray-100 rounded-t-lg p-6">
+      {/* Format Selection and Search Bar on the Same Line */}
+      <form
+        onSubmit={handleSearch}
+        className="w-full max-w-3xl bg-gray-100 rounded-t-lg p-6 fixed bottom-0 left-1/2 transform -translate-x-1/2"
+      >
         <div className="flex items-center gap-4">
+          {/* Format Selection */}
           <div className="flex items-center gap-4">
             {['text', 'table', 'graph'].map((format) => (
               <label key={format} className="flex items-center">
@@ -114,20 +133,36 @@ const SearchBar = () => {
             ))}
           </div>
 
-          <input
-            type="text"
-            value={query}
-            onChange={handleInputChange}
-            placeholder="Enter your query..."
-            className="flex-grow bg-white text-gray-800 rounded-lg py-2 px-4 shadow-none transition focus:outline-none focus:ring focus:ring-gray-200"
-          />
+          {/* Search Input and Voice Button */}
+          <div className="flex flex-grow items-center">
+            <input
+              type="text"
+              value={query}
+              onChange={handleInputChange}
+              placeholder="Enter your query..."
+              className="flex-grow bg-white text-gray-800 rounded-lg py-2 px-4 shadow-none transition focus:outline-none focus:ring focus:ring-gray-200"
+            />
 
-          <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md" disabled={!selectedFormat}>
+            {/* Microphone Button */}
+            <button
+              type="button"
+              onClick={startListening}
+              className={`ml-2 bg-gray-300 p-2 rounded-full hover:bg-gray-400 transition ${
+                isListening ? 'bg-blue-500 text-white' : ''
+              }`}
+              title="Use voice input"
+            >
+              🎤
+            </button>
+          </div>
+
+          {/* Search Button */}
+          <button
+            type="submit"
+            className="bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md"
+            disabled={!selectedFormat}
+          >
             Search
-          </button>
-
-          <button type="button" onClick={exportToPDF} className="bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition duration-200 shadow-md">
-            Export PDF
           </button>
         </div>
       </form>
