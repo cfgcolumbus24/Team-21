@@ -14,7 +14,7 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
 # Initialize FastAPI and Supabase client
 app = FastAPI()
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Define the input model for API
 class QueryRequest(BaseModel):
@@ -23,12 +23,12 @@ class QueryRequest(BaseModel):
 # Helper function to generate SQL query using LLM
 def generate_sql_query(user_query: str) -> str:
     prompt = f"""
-    Convert the following natural language query into SQL:
+    Convert the following natural language query into an SQL string:
     Query: "{user_query}"
     Database structure:
     Table 1 - patient: Columns (patient_id: int4, name: varchar, age: int4, length_of_stay: int4, gender: text, transgender_identity: text, sexual_orientation: text, race_or_ethnicity: text)
     
-    SQL Query:
+    SQL Query string:
     """
     
     # Update for chat-based interaction with gpt-3.5-turbo
@@ -47,7 +47,7 @@ def generate_sql_query(user_query: str) -> str:
 
 # API Endpoint
 @app.get("/query")  # Ensure we're using GET here
-async def query_database(user_query: str = Query(..., description="User's search query")):
+async def query_database(user_query: str = Query(..., description="User's search query"),):
     # Debugging line to confirm received query
     print(f"Received user query: {user_query}")
     
@@ -60,7 +60,7 @@ async def query_database(user_query: str = Query(..., description="User's search
 
     # Step 2: Query Supabase database
     try:
-        result = supabase.rpc("exec_sql", {"sql_query": sql_query}).execute()
+        result = supabase.rpc("exec_sql", {"sql_query": str(sql_query)}).execute()
         if result.error:
             raise Exception(result.error)
         return {"data": result.data}
