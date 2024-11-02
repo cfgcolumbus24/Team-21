@@ -25,12 +25,6 @@ const LandingPage = () => {
           <GraphSection />
         </div>
       </div>
-
-      {/* Bottom Area for Search Bar and Auth */}
-      <div className="flex flex-col items-center gap-4 mt-6">
-        {/* Search Bar */}
-        <SearchBar />
-      </div>
     </div>
   );
 };

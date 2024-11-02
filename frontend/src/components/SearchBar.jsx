@@ -18,7 +18,7 @@ const SearchBar = () => {
     if (query.trim() === '') return;
 
     try {
-      const response = await fetch('http://your-backend-url/api/search', { // Replace with your backend URL
+      const response = await fetch('http://your-backend-url/api/search', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,60 +37,61 @@ const SearchBar = () => {
   };
 
   return (
-    <form onSubmit={handleSearch} className="flex flex-col items-center bg-gray-100 rounded-lg shadow-md max-w-md mx-auto p-6 border border-gray-300">
-      <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">Search Database</h2>
-      <input
-        type="text"
-        value={query}
-        onChange={handleInputChange}
-        placeholder="Enter your query..."
-        className="bg-gray-200 outline-none w-full px-4 py-2 rounded-md text-gray-700 mb-4 border border-gray-300 focus:border-gray-500 focus:ring focus:ring-gray-300 transition duration-200"
-      />
-      <div className="flex justify-evenly mb-4 w-full">
-        <label className="flex items-center text-gray-900">
-          <input
-            type="radio"
-            name="format"
-            value="text"
-            checked={selectedFormat === 'text'}
-            onChange={handleCheckboxChange}
-            className="sr-only peer"
-          />
-          <span className={`border border-gray-300 rounded-full p-1 ${selectedFormat === 'text' ? 'bg-gray-500' : 'bg-gray-200'} hover:bg-gray-400 transition duration-150`}>
-            Text
-          </span>
-        </label>
-        <label className="flex items-center text-gray-900">
-          <input
-            type="radio"
-            name="format"
-            value="table"
-            checked={selectedFormat === 'table'}
-            onChange={handleCheckboxChange}
-            className="sr-only peer"
-          />
-          <span className={`border border-gray-300 rounded-full p-1 ${selectedFormat === 'table' ? 'bg-gray-500' : 'bg-gray-200'} hover:bg-gray-400 transition duration-150`}>
-            Table
-          </span>
-        </label>
-        <label className="flex items-center text-gray-900">
-          <input
-            type="radio"
-            name="format"
-            value="graph"
-            checked={selectedFormat === 'graph'}
-            onChange={handleCheckboxChange}
-            className="sr-only peer"
-          />
-          <span className={`border border-gray-300 rounded-full p-1 ${selectedFormat === 'graph' ? 'bg-gray-500' : 'bg-gray-200'} hover:bg-gray-400 transition duration-150`}>
-            Graph
-          </span>
-        </label>
+    <div className="flex flex-col h-screen w-full bg-gray-100 text-gray-700 p-6">
+      {/* Main Content Area */}
+      <div className="flex-1 overflow-auto p-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Database Search Interface</h2>
+        {/* Placeholder for Results */}
+        <div className="bg-white shadow-inner rounded-lg p-6 max-w-3xl mx-auto text-gray-800">
+          {/* Imagine search results or chat history here */}
+          <p className="text-center italic text-gray-400">Your search results will appear here...</p>
+        </div>
       </div>
-      <button type="submit" className="w-full bg-gray-500 text-white font-semibold py-2 rounded-md hover:bg-gray-600 transition duration-200">
-        Search
-      </button>
-    </form>
+
+      {/* Search Input Area, Fixed at Bottom */}
+      <form
+        onSubmit={handleSearch}
+        className="w-full max-w-3xl bg-gray-50 rounded-t-lg shadow-lg p-6 border-t border-gray-300 fixed bottom-0 left-1/2 transform -translate-x-1/2"
+      >
+        {/* Search Bar */}
+        <input
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          placeholder="Enter your query..."
+          className="w-full bg-white text-gray-800 rounded-lg py-2 px-4 mb-4 shadow-inner border border-gray-300 focus:border-gray-400 focus:ring focus:ring-gray-200 transition"
+        />
+
+        {/* Format Selection */}
+        <div className="flex justify-center gap-4 mb-4">
+          {['text', 'table', 'graph'].map((format) => (
+            <label key={format} className="flex flex-col items-center">
+              <input
+                type="radio"
+                name="format"
+                value={format}
+                checked={selectedFormat === format}
+                onChange={handleCheckboxChange}
+                className="sr-only peer"
+              />
+              <span
+                className={`px-4 py-2 rounded-full text-sm ${selectedFormat === format ? 'bg-gray-500 text-white' : 'bg-gray-300 text-gray-600'} hover:bg-gray-400 transition`}
+              >
+                {format.charAt(0).toUpperCase() + format.slice(1)}
+              </span>
+            </label>
+          ))}
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md"
+        >
+          Search
+        </button>
+      </form>
+    </div>
   );
 };
 
