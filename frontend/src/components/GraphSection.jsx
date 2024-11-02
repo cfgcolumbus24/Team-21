@@ -47,33 +47,31 @@ const GraphSection = () => {
 
   return (
     <div>
-    
     <div>
+      <h1 style={{ 
+                  color: 'black',           // Sets the text color
+                  fontSize: '36px',         // Sets the font size
+                  fontFamily: 'Roboto, sans-serif', // Sets the font family
+                  fontWeight: 700, // Sets the weight of the font
+                  margin: 20
+              }}>
+                  Netcare Access Analytics
+      </h1>
 
-    <h1 style={{ 
-                color: 'black',           // Sets the text color
-                fontSize: '36px',         // Sets the font size
-                fontFamily: 'Roboto, sans-serif', // Sets the font family
-                fontWeight: 700, // Sets the weight of the font
-                margin: 20
-            }}>
-                Netcare Access Analytics
-    </h1>
-
-    <div className="relative inline-block">
-      <button
-        className={`text-white font-bold py-2 px-4 rounded ${buttonColor} transition duration-300 ease-in-out transform hover:scale-105`}
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
-      >
-        Dynamic Button
-      </button>
-      {showTooltip && data && (
-        <div className="absolute top-full mt-2 px-4 py-2 bg-gray-800 text-white rounded shadow-lg text-sm z-10">
-          {JSON.stringify(data)}
-        </div>
-      )}
-    </div>
+      <div className="relative inline-block">
+        <button
+          className={`text-white font-bold py-2 px-4 rounded ${buttonColor} transition duration-300 ease-in-out transform hover:scale-105`}
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+        >
+          Dynamic Button
+        </button>
+        {showTooltip && data && (
+          <div className="absolute top-full mt-2 px-4 py-2 bg-gray-800 text-white rounded shadow-lg text-sm z-10">
+            {JSON.stringify(data)}
+          </div>
+        )}
+      </div>
 
     </div>
 
@@ -85,6 +83,7 @@ const GraphSection = () => {
       label="PATIENTS TREATED"
       change="🔺 8% Since last month"
     />
+    {/* <button onClick={handleSearch}>HEYYYYYy</button> */}
     <MetricCard 
     color="#f44336" // Red for urgency and critical care
     icon="❤️"
@@ -95,7 +94,7 @@ const GraphSection = () => {
 
 <MetricCard 
     color="#ff9800" // Orange for warmth and attention
-    icon="👶"
+    icon="📞"
     amount="40"
     label="CALL RESPONSE TIME"
     change="🔺 20% Since last month"
@@ -103,7 +102,7 @@ const GraphSection = () => {
 
 <MetricCard 
     color="#2196f3" // Blue for trust and security
-    icon="💉"
+    icon="💲"
     amount="450"
     label="DONATIONS RECEIVED"
     change="🔺 15% Since last month"
