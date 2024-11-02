@@ -29,7 +29,7 @@ const MyStackedBarChart = () => {
           borderRadius: '10px',
           boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
       }}>               
-        <h2 style={{ color: "black", marginTop: '30px' }}>Yearly Overview by Metrics</h2>
+        <h2 style={{ color: "black", marginTop: '10px' }}>Funding Sources Breakdown</h2>
         <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}

@@ -70,7 +70,7 @@ const MyBarChart = () => {
           borderRadius: '10px', // Optional, for rounded corners
           boxShadow: '0 2px 4px rgba(0,0,0,0.1)' // Optional, for a subtle shadow
       }}>               
-        <h2 style={{ color: "black", marginTop: '30px' }}>StackedBar Chart</h2>
+        <h2 style={{ color: "black", marginTop: '10px' }}>Monthly Patient Volume</h2>
         <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={500}

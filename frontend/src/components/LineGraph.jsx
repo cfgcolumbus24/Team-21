@@ -38,11 +38,11 @@ const LineGraph = () => {
       alignItems: 'center',
       flexDirection: 'column',
       border: '1px solid #ccc',
-      padding: '20px',
+      padding: '0 20px 20px 20px',
       borderRadius: '10px',
       boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
     }}>               
-      <h2 style={{ color: "black", marginTop: '30px' }}>Monthly Patient Data</h2>
+      <h2 style={{ color: "black", marginTop: '10px' }}>Monthly Cumulative Patient Count</h2>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={data}
