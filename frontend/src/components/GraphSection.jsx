@@ -72,10 +72,10 @@ const GraphSection = () => {
           display: 'flex', 
           alignItems: 'center',
           flexDirection: 'column',
-          border: '2px solid #ccc', // Adding a border
+          border: '1px solid #ccc', // Adding a border
           padding: '20px', // Optional, for padding inside the div
           borderRadius: '10px', // Optional, for rounded corners
-          boxShadow: '0 4px 8px rgba(0,0,0,0.1)' // Optional, for a subtle shadow
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)' // Optional, for a subtle shadow
       }}>       
         <h2 style={{ color: "black", margin: '10px 0' }}>UV and PV Line Chart</h2>
         <ResponsiveContainer>
@@ -119,10 +119,10 @@ const GraphSection = () => {
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
-          border: '2px solid #ccc', // Adding a border
+          border: '1px solid #ccc', // Adding a border
           padding: '20px', // Optional, for padding inside the div
           borderRadius: '10px', // Optional, for rounded corners
-          boxShadow: '0 4px 8px rgba(0,0,0,0.1)' // Optional, for a subtle shadow
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)' // Optional, for a subtle shadow
       }}>
         <h2 style={{ color: "black", margin: '10px 0' }}>Fund</h2>
         <ResponsiveContainer>
