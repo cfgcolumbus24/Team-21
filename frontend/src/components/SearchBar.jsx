@@ -1,12 +1,14 @@
 // src/components/SearchBar.jsx
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import TextResult from './subComponents/TextResult';
 import TableResult from './subComponents/TableResult';
+import html2pdf from 'html2pdf.js';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [selectedFormat, setSelectedFormat] = useState('');
-  const [resultsHistory, setResultsHistory] = useState([]); // Store history of search results
+  const [resultsHistory, setResultsHistory] = useState([]);
+  const resultsRef = useRef(null); // Ref for exportable section
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
@@ -20,41 +22,47 @@ const SearchBar = () => {
     e.preventDefault();
     if (query.trim() === '') return;
 
-    // Add user query to results history immediately
-    const newEntry = { format: selectedFormat, data: null, query }; // Initially set data to null
+    const newEntry = { format: selectedFormat, data: null, query };
     setResultsHistory((prevResults) => [newEntry, ...prevResults]);
 
     try {
       const response = await fetch('http://127.0.0.1:8000/query', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_query: query, format: selectedFormat }),
       });
-
       const data = await response.json();
-
-      // Update the latest entry in resultsHistory with the actual result
       setResultsHistory((prevResults) => {
         const updatedResults = [...prevResults];
-        updatedResults[0] = { ...updatedResults[0], data }; // Update the first item with backend data
+        updatedResults[0] = { ...updatedResults[0], data };
         return updatedResults;
       });
     } catch (error) {
       console.error('Error sending search query:', error);
     }
-
     setQuery('');
     setSelectedFormat('');
   };
 
+  // Export to PDF with html2pdf.js
+  const exportToPDF = () => {
+    const element = resultsRef.current;
+    html2pdf()
+      .from(element)
+      .set({
+        margin: 1,
+        filename: 'session_history.pdf',
+        html2canvas: { scale: 2 },
+        jsPDF: { orientation: 'portrait' },
+      })
+      .save();
+  };
+
   return (
     <div className="flex flex-col h-screen w-full bg-gray-100 text-gray-700 p-6">
-      <div className="flex-1 overflow-auto p-8">
+      <div className="flex-1 overflow-auto p-8" ref={resultsRef}>
         <h2 className="text-2xl font-semibold mb-4 text-center">Database Search Interface</h2>
 
-        {/* Search Results */}
         <div className="bg-gray-100 rounded-lg p-6 max-w-full mx-auto text-gray-800 space-y-4 overflow-y-auto h-[75vh]">
           {resultsHistory.length === 0 && (
             <p className="text-center italic text-gray-400">Your search results will appear here...</p>
@@ -70,8 +78,6 @@ const SearchBar = () => {
                   <>
                     {result.format === 'text' && <TextResult data={result.data} />}
                     {result.format === 'table' && <TableResult data={result.data} />}
-                    {/* Uncomment if implementing GraphResult */}
-                    {/* {result.format === 'graph' && <GraphResult data={result.data} />} */}
                   </>
                 ) : (
                   <p className="text-gray-400 italic">Loading result...</p>
@@ -82,13 +88,9 @@ const SearchBar = () => {
         </div>
       </div>
 
-      {/* Format Selection and Search Bar on the Same Line */}
-      <form
-        onSubmit={handleSearch}
-        className="w-full max-w-3xl bg-gray-100 rounded-t-lg p-6 fixed bottom-0 left-1/2 transform -translate-x-1/2"
-      >
+      {/* Controls and Export Button */}
+      <form onSubmit={handleSearch} className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-3xl bg-gray-100 rounded-t-lg p-6">
         <div className="flex items-center gap-4">
-          {/* Format Selection */}
           <div className="flex items-center gap-4">
             {['text', 'table', 'graph'].map((format) => (
               <label key={format} className="flex items-center">
@@ -111,7 +113,6 @@ const SearchBar = () => {
             ))}
           </div>
 
-          {/* Search Input */}
           <input
             type="text"
             value={query}
@@ -120,13 +121,12 @@ const SearchBar = () => {
             className="flex-grow bg-white text-gray-800 rounded-lg py-2 px-4 shadow-none transition focus:outline-none focus:ring focus:ring-gray-200"
           />
 
-          {/* Search Button */}
-          <button
-            type="submit"
-            className="bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md"
-            disabled={!selectedFormat} // Disable button if no format is selected
-          >
+          <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md" disabled={!selectedFormat}>
             Search
+          </button>
+
+          <button type="button" onClick={exportToPDF} className="bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition duration-200 shadow-md">
+            Export PDF
           </button>
         </div>
       </form>
