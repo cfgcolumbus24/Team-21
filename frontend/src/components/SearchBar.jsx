@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+// src/components/SearchBar.jsx
+import React, { useState, useRef, useEffect } from 'react';
+import html2pdf from 'html2pdf.js'; // Import html2pdf for PDF generation
 import TextResult from './subComponents/TextResult';
 import TableResult from './subComponents/TableResult';
 
@@ -7,21 +9,49 @@ const SearchBar = () => {
   const [selectedFormat, setSelectedFormat] = useState('');
   const [resultsHistory, setResultsHistory] = useState([]);
   const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef(null);
+  const resultsRef = useRef(null); // Ref for the results section to export
 
-  // Handle manual text input change
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new window.webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setQuery((prevQuery) => prevQuery + ' ' + transcript);
+      };
+
+      recognition.onend = () => setIsListening(false);
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+    }
+  }, []);
+
+  const handleInputChange = (e) => setQuery(e.target.value);
+
+  const handleCheckboxChange = (e) => setSelectedFormat(e.target.value);
+
+  const handleSpeechToText = () => {
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      recognitionRef.current.start();
+      setIsListening(true);
+    }
   };
 
-  // Handle format selection
-  const handleCheckboxChange = (e) => {
-    setSelectedFormat(e.target.value);
-  };
-
-  // Handle search form submission
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (query.trim() === '') return;
+    if (query.trim() === '' || !selectedFormat) return;
 
     const newEntry = { format: selectedFormat, data: null, query };
     setResultsHistory((prevResults) => [newEntry, ...prevResults]);
@@ -29,13 +59,11 @@ const SearchBar = () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/query', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_query: query, format: selectedFormat }),
       });
-
       const data = await response.json();
+
       setResultsHistory((prevResults) => {
         const updatedResults = [...prevResults];
         updatedResults[0] = { ...updatedResults[0], data };
@@ -49,36 +77,24 @@ const SearchBar = () => {
     setSelectedFormat('');
   };
 
-  // Voice recognition logic
-  const startListening = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert("Your browser doesn't support speech recognition.");
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onstart = () => setIsListening(true);
-    recognition.onend = () => setIsListening(false);
-
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setQuery((prevQuery) => `${prevQuery} ${transcript}`);
+  const handleExportToPDF = () => {
+    const element = resultsRef.current;
+    const options = {
+      margin: 0.5,
+      filename: 'SearchHistory.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
     };
 
-    recognition.start();
+    html2pdf().set(options).from(element).save();
   };
 
   return (
     <div className="flex flex-col h-screen w-full bg-gray-100 text-gray-700 p-6">
-      <div className="flex-1 overflow-auto p-8">
+      <div ref={resultsRef} className="flex-1 overflow-auto p-8">
         <h2 className="text-2xl font-semibold mb-4 text-center">Database Search Interface</h2>
 
-        {/* Search Results */}
         <div className="bg-gray-100 rounded-lg p-6 max-w-full mx-auto text-gray-800 space-y-4 overflow-y-auto h-[75vh]">
           {resultsHistory.length === 0 && (
             <p className="text-center italic text-gray-400">Your search results will appear here...</p>
@@ -104,13 +120,12 @@ const SearchBar = () => {
         </div>
       </div>
 
-      {/* Format Selection and Search Bar on the Same Line */}
+      {/* Format Selection, Search Bar, Speech-to-Text, and Export to PDF Button on the Same Line */}
       <form
         onSubmit={handleSearch}
         className="w-full max-w-3xl bg-gray-100 rounded-t-lg p-6 fixed bottom-0 left-1/2 transform -translate-x-1/2"
       >
         <div className="flex items-center gap-4">
-          {/* Format Selection */}
           <div className="flex items-center gap-4">
             {['text', 'table', 'graph'].map((format) => (
               <label key={format} className="flex items-center">
@@ -133,28 +148,14 @@ const SearchBar = () => {
             ))}
           </div>
 
-          {/* Search Input and Voice Button */}
-          <div className="flex flex-grow items-center">
-            <input
-              type="text"
-              value={query}
-              onChange={handleInputChange}
-              placeholder="Enter your query..."
-              className="flex-grow bg-white text-gray-800 rounded-lg py-2 px-4 shadow-none transition focus:outline-none focus:ring focus:ring-gray-200"
-            />
-
-            {/* Microphone Button */}
-            <button
-              type="button"
-              onClick={startListening}
-              className={`ml-2 bg-gray-300 p-2 rounded-full hover:bg-gray-400 transition ${
-                isListening ? 'bg-blue-500 text-white' : ''
-              }`}
-              title="Use voice input"
-            >
-              🎤
-            </button>
-          </div>
+          {/* Search Input */}
+          <input
+            type="text"
+            value={query}
+            onChange={handleInputChange}
+            placeholder="Enter your query..."
+            className="flex-grow bg-white text-gray-800 rounded-lg py-2 px-4 shadow-none transition focus:outline-none focus:ring focus:ring-gray-200"
+          />
 
           {/* Search Button */}
           <button
@@ -163,6 +164,26 @@ const SearchBar = () => {
             disabled={!selectedFormat}
           >
             Search
+          </button>
+
+          {/* Speech-to-Text Button */}
+          <button
+            type="button"
+            onClick={handleSpeechToText}
+            className={`${
+              isListening ? 'bg-red-600' : 'bg-green-600'
+            } text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition duration-200 shadow-md`}
+          >
+            {isListening ? 'Stop' : 'Talk'}
+          </button>
+
+          {/* Export to PDF Button */}
+          <button
+            type="button"
+            onClick={handleExportToPDF}
+            className="bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md"
+          >
+            PDF
           </button>
         </div>
       </form>
