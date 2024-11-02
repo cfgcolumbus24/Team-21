@@ -37,7 +37,7 @@ const ProfileSection = () => {
   return (
     <div className="bg-white shadow-md rounded-lg p-4 text-center w-full">
       <img
-        src="https://cdn.inspireuplift.com/uploads/images/seller_products/30455/1702298090_GOOFYAHHnerdemoji.png"
+        src="https://www.humanservicechamber.org/wp-content/uploads/Netcare-Access-4-1200x1200.jpg"
         alt="Profile"
         className="rounded-full mx-auto mb-4"
       />
