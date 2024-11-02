@@ -24,18 +24,21 @@ const GraphSection = () => {
   const [buttonColor, setButtonColor] = useState('bg-green-500');
   const [data, setData] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [anamolyData, setAnamolyData] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('http://127.0.0.1:8000/detect_anomalies');
         const result = await response.json();
-        if (result.revenue_anomalies || result.expense_anomalies) {
+        if (result.revenue_anomalies || result.expenses_anomalies) {
           setButtonColor('bg-red-500');
           setData(result);
+          setAnamolyData(`Revenue Anomaly: ${result.revenue_anomalies}\nExpense Anomaly: ${result.expenses_anomalies[0].amount}`);
         } else {
           setButtonColor('bg-green-500');
           setData(null);
+          setAnamolyData(null);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -64,11 +67,11 @@ const GraphSection = () => {
           onMouseEnter={() => setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
         >
-          Dynamic Button
+          Anamoly Detection
         </button>
         {showTooltip && data && (
           <div className="absolute top-full mt-2 px-4 py-2 bg-gray-800 text-white rounded shadow-lg text-sm z-10">
-            {JSON.stringify(data)}
+            {anamolyData}
           </div>
         )}
       </div>
