@@ -2,7 +2,7 @@ import React from 'react';
 import MyBarChart from '../components/MyBarChart';
 import LineGraph from '../components/LineGraph';
 import MyPieChart from '../components/MyPieChart';
-import MyStackedPieChart from '../components/MyStackedPieChart';
+import MyStackedBarChart from './MyStackedBarChart';
 import MetricCard from '../components/MetricCard';
 import { ResponsiveContainer } from 'recharts';
 
@@ -85,11 +85,11 @@ const GraphSection = () => {
           padding: '0 20px 20px 20px'
           
       }}>       
-        <h2 style={headerStyle}>Pie</h2>
+        <h2 style={headerStyle}>Monthly Patient Volume</h2>
         <ResponsiveContainer>
           <MyBarChart/>
         </ResponsiveContainer>
-        <h2 style={headerStyle}>Scatter</h2>
+        <h2 style={headerStyle}>Monthly Cumulative Patient Count</h2>
         <ResponsiveContainer>
           <LineGraph/>
         </ResponsiveContainer>
@@ -103,13 +103,13 @@ const GraphSection = () => {
           flexDirection: 'column',
           padding: '0 20px 20px 20px',
       }}>
-        <h2 style={headerStyle}>Line</h2>
+        <h2 style={headerStyle}>Demographic Profile of Patients This Month</h2>
         <ResponsiveContainer>
           <MyPieChart/>
         </ResponsiveContainer>
-        <h2 style={headerStyle}>Bar</h2>
+        <h2 style={headerStyle}>Funding Sources Breakdown</h2>
         <ResponsiveContainer>
-          <MyStackedPieChart/>
+          <MyStackedBarChart/>
         </ResponsiveContainer>
       </div>
     </div>

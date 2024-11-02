@@ -27,7 +27,7 @@ const MyPieChart = () => {
       borderRadius: '10px',
       boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
     }}>               
-      <h2 style={{ color: "black", marginTop: '10px' }}>Demographic Profile of Patients This Month</h2>
+      <h2 style={{ color: "black", marginTop: '10px' }}></h2>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
