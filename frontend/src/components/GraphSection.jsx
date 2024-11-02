@@ -2,7 +2,7 @@ import React from 'react';
 import MyBarChart from '../components/MyBarChart';
 import LineGraph from '../components/LineGraph';
 import MyPieChart from '../components/MyPieChart';
-import MyStackedPieChart from '../components/MyStackedPieChart';
+import MyStackedBarChart from './MyStackedBarChart';
 import MetricCard from '../components/MetricCard';
 import { ResponsiveContainer } from 'recharts';
 
@@ -53,7 +53,7 @@ const GraphSection = () => {
     color="#ff9800" // Orange for warmth and attention
     icon="👶"
     amount="40"
-    label="NEWBORN SCREENINGS"
+    label="CALL RESPONSE TIME"
     change="🔺 20% Since last month"
 />
 
@@ -61,7 +61,7 @@ const GraphSection = () => {
     color="#2196f3" // Blue for trust and security
     icon="💉"
     amount="450"
-    label="VACCINATIONS ADMINISTERED"
+    label="DONATIONS RECEIVED"
     change="🔺 15% Since last month"
 />
 
@@ -85,11 +85,11 @@ const GraphSection = () => {
           padding: '0 20px 20px 20px'
           
       }}>       
-        <h2 style={headerStyle}>Pie</h2>
+        <h2 style={headerStyle}>Monthly Patient Volume</h2>
         <ResponsiveContainer>
           <MyBarChart/>
         </ResponsiveContainer>
-        <h2 style={headerStyle}>Scatter</h2>
+        <h2 style={headerStyle}>Monthly Cumulative Patient Count</h2>
         <ResponsiveContainer>
           <LineGraph/>
         </ResponsiveContainer>
@@ -103,13 +103,13 @@ const GraphSection = () => {
           flexDirection: 'column',
           padding: '0 20px 20px 20px',
       }}>
-        <h2 style={headerStyle}>Line</h2>
+        <h2 style={headerStyle}>Demographic Profile of Patients This Month</h2>
         <ResponsiveContainer>
           <MyPieChart/>
         </ResponsiveContainer>
-        <h2 style={headerStyle}>Bar</h2>
+        <h2 style={headerStyle}>Funding Sources Breakdown</h2>
         <ResponsiveContainer>
-          <MyStackedPieChart/>
+          <MyStackedBarChart/>
         </ResponsiveContainer>
       </div>
     </div>
