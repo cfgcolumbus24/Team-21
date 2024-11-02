@@ -62,9 +62,10 @@ const SearchBar = () => {
     <div className="flex flex-col h-screen w-full bg-gray-100 text-gray-700 p-6">
       <div className="flex-1 overflow-auto p-8" ref={resultsRef}>
         <h2 className="text-2xl font-semibold mb-4 text-center">Database Search Interface</h2>
-
-        <div className="bg-gray-100 rounded-lg p-6 max-w-full mx-auto text-gray-800 space-y-4 overflow-y-auto h-[75vh]">
-          {resultsHistory.length === 0 && (
+        <div className="bg-gray-100 rounded-lg p-6 max-w-3xl mx-auto text-gray-800">
+          {(selectedFormat === 'text' || selectedFormat ==='graph') && <TextResult data={results} />}
+          {selectedFormat === 'table' && <TableResult data={results} />}
+          {results.length === 0 && (
             <p className="text-center italic text-gray-400">Your search results will appear here...</p>
           )}
           
