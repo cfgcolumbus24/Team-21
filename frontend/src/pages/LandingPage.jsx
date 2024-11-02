@@ -21,7 +21,7 @@ const LandingPage = () => {
         </div>
 
         {/* Graph Section (Below Profile on smaller screens, left-aligned on larger screens) */}
-        <div className="order-2 md:order-1 flex justify-center w-full md:w-2/3">
+        <div className=" flex justify-center w-full md:w-2/3">
           <GraphSection />
         </div>
       </div>
