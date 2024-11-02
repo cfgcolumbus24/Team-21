@@ -10,8 +10,19 @@ const headerStyle = {
     fontFamily: '"Roboto", sans-serif' // Apply Roboto font
 };
 
+
+
 const GraphSection = () => {
   return (
+    <div>
+    <h1 style={{ 
+                color: 'black',           // Sets the text color
+                fontSize: '36px',         // Sets the font size
+                fontFamily: 'Roboto, sans-serif', // Sets the font family
+                fontWeight: 700           // Sets the weight of the font
+            }}>
+                Netcare Access Analytics
+            </h1>
     <div style={{ 
         display: 'flex', 
         flexDirection: 'row', 
@@ -58,6 +69,8 @@ const GraphSection = () => {
         </ResponsiveContainer>
       </div>
     </div>
+    </div>
+    
   );  
 };
 
