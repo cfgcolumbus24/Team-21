@@ -2,7 +2,6 @@ import React from 'react';
 import SearchBar from '../components/SearchBar';
 import ProfileSection from '../components/ProfileSection';
 import GraphSection from '../components/GraphSection';
-import NavBar from '../components/NavBar';
 
 const LandingPage = () => {
   return (
@@ -12,7 +11,7 @@ const LandingPage = () => {
             <GraphSection />
         </div>
         <div style={{ flex: 1, marginRight: '20px', marginLeft: '20px', minWidth: '200px', marginTop: '65px' }}> {/* Ensure minimum width */}
-            <ProfileSection />
+            <ProfileSection style={{border: '1px solid #ccc', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}/>
         </div>
     </div>
 

@@ -3,6 +3,7 @@ import MyBarChart from '../components/MyBarChart';
 import LineGraph from '../components/LineGraph';
 import MyPieChart from '../components/MyPieChart';
 import MyStackedPieChart from '../components/MyStackedPieChart';
+import MetricCard from '../components/MetricCard';
 import { ResponsiveContainer } from 'recharts';
 
 const headerStyle = {
@@ -21,14 +22,51 @@ const headerStyle = {
 const GraphSection = () => {
   return (
     <div>
+      
     <h1 style={{ 
                 color: 'black',           // Sets the text color
                 fontSize: '36px',         // Sets the font size
                 fontFamily: 'Roboto, sans-serif', // Sets the font family
-                fontWeight: 700           // Sets the weight of the font
+                fontWeight: 700, // Sets the weight of the font
+                margin: 20
             }}>
                 Netcare Access Analytics
-            </h1>
+    </h1>
+
+    <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
+    <MetricCard 
+      color="#4caf50" // Green for positive health outcomes
+      icon="🩺"
+      amount="320"
+      label="PATIENTS TREATED"
+      change="🔺 8% Since last month"
+    />
+    <MetricCard 
+    color="#f44336" // Red for urgency and critical care
+    icon="❤️"
+    amount="95%"
+    label="PATIENT SATISFACTION"
+    change="🔺 5% Since last month"
+/>
+
+<MetricCard 
+    color="#ff9800" // Orange for warmth and attention
+    icon="👶"
+    amount="40"
+    label="NEWBORN SCREENINGS"
+    change="🔺 20% Since last month"
+/>
+
+<MetricCard 
+    color="#2196f3" // Blue for trust and security
+    icon="💉"
+    amount="450"
+    label="VACCINATIONS ADMINISTERED"
+    change="🔺 15% Since last month"
+/>
+
+    </div>
+
     <div style={{ 
         display: 'flex', 
         flexDirection: 'row', 
@@ -44,7 +82,7 @@ const GraphSection = () => {
           display: 'flex', 
           alignItems: 'center',
           flexDirection: 'column',
-          padding: '20px',
+          padding: '0 20px 20px 20px'
           
       }}>       
         <h2 style={headerStyle}>Pie</h2>
@@ -63,7 +101,7 @@ const GraphSection = () => {
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
-          padding: '20px',
+          padding: '0 20px 20px 20px',
       }}>
         <h2 style={headerStyle}>Line</h2>
         <ResponsiveContainer>

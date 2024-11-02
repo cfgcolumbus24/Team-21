@@ -15,7 +15,7 @@ function Auth() {
         if (error) alert(error.message); 
         else { 
             alert(isSignUp ? 'Sign-up successful': 'Logged in successfully!')
-            window.location.href = "/"
+            window.location.href = "/search"
         };
     }
 

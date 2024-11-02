@@ -1,0 +1,56 @@
+.dashboard {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+    padding: 20px;
+    padding-top: 25px;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+    display: flex;
+    min-height: 200px;
+    margin: 10px;
+    max-height: 200px; /* Example maximum height */
+}
+
+.card-icon {
+    font-size: 30px;
+    color: white;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: calc(50% - 30px);
+}
+.card-content{
+    margin-top: 35px;
+    margin-bottom: 10px;
+}
+
+.card-content h3 {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.card-content p {
+    color: grey;
+    font-size: 16px;
+    margin: 0;
+}
+
+.card-content small {
+    color: #666;
+    font-size: 14px;
+}
