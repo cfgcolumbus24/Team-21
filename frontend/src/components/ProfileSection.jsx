@@ -1,9 +1,11 @@
-import React, { useRef } from 'react';
-// Import Supabase client
+import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { supabase } from '../supabaseClient';
 
 const ProfileSection = () => {
+  const navigate = useNavigate(); // Initialize navigate
   const contentRef = useRef(null);
+  const [showLogoutPrompt, setShowLogoutPrompt] = useState(false);
 
   // Logout function to sign out of Supabase
   const handleLogout = async () => {
@@ -12,15 +14,14 @@ const ProfileSection = () => {
       console.error('Error signing out:', error.message);
     } else {
       console.log('Signed out successfully');
+      navigate('/auth', { replace: true }); // Redirect and replace history
     }
   };
 
   // Function to handle change password action
   const handleChangePassword = async () => {
-    // Get the current user's email
     const { data: { user } } = await supabase.auth.getUser();
     if (user && user.email) {
-      // Send password reset email
       const { error } = await supabase.auth.resetPasswordForEmail(user.email);
       if (error) {
         console.error('Error sending password reset email:', error.message);
@@ -53,7 +54,7 @@ const ProfileSection = () => {
 
       {/* Logout Button */}
       <button
-        onClick={handleLogout}
+        onClick={() => setShowLogoutPrompt(true)}
         className="flex items-center justify-center w-32 h-11 bg-blue-500 rounded-lg cursor-pointer transition-all duration-200 shadow-lg hover:bg-blue-700 mt-4 mx-auto"
       >
         <svg className="w-4 h-4 mr-2" viewBox="0 0 512 512" fill="white">
@@ -63,8 +64,33 @@ const ProfileSection = () => {
         </svg>
         <span className="text-white text-sm font-semibold">Logout</span>
       </button>
+
+      {/* Logout Confirmation Prompt */}
+      {showLogoutPrompt && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <p className="mb-4 text-lg font-semibold">Are you sure you want to log out?</p>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={handleLogout}
+                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => setShowLogoutPrompt(false)}
+                className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default ProfileSection;
+
+
