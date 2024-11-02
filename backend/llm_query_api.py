@@ -19,6 +19,7 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 # Define the input model for API
 class QueryRequest(BaseModel):
     user_query: str
+    output_type: str
 
 # Helper function to generate SQL query using LLM
 def generate_sql_query(user_query: str) -> str:
@@ -33,7 +34,7 @@ def generate_sql_query(user_query: str) -> str:
     
     # Update for chat-based interaction with gpt-3.5-turbo
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": "You are an SQL expert."},
             {"role": "user", "content": prompt}
@@ -45,26 +46,68 @@ def generate_sql_query(user_query: str) -> str:
     sql_query = response.choices[0].message['content'].strip()
     return sql_query
 
+def generate_text_output(user_query: str, sql_query: str, data) -> str:
+    prompt = f"""
+    Using the raw data below, answer the following question with its returned data below:
+    Question: "{user_query}"
+    Sql_query: "{sql_query}"
+    Data: "{data}"
+    
+    Text Summary:
+    """
+    
+    # Update for chat-based interaction with gpt-3.5-turbo
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=100,
+        temperature=0
+    )
+    
+    output = response.choices[0].message['content'].strip()
+    return output
+
+def generate_graph_output(user_query: str, data) -> str:
+    return
+
+
 # API Endpoint
-@app.get("/query")  # Ensure we're using GET here
-async def query_database(user_query: str = Query(..., description="User's search query"),):
+@app.post("/query")  # Changed to POST here
+async def query_database(request: QueryRequest):
     # Debugging line to confirm received query
-    print(f"Received user query: {user_query}")
+    print(f"Received user query: {request.user_query}")
+    print(f"Requested output type: {request.output_type}")
     
     # Step 1: Generate SQL query
     try:
-        sql_query = generate_sql_query(user_query)
+        sql_query = generate_sql_query(request.user_query)
         print(f"Generated SQL Query: {sql_query}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating SQL query: {e}")
 
     # Step 2: Query Supabase database
     try:
-        result = supabase.rpc("exec_sql", {"sql_query": str(sql_query)}).execute()
-        if result.error:
-            raise Exception(result.error)
-        return {"data": result.data}
+        result = supabase.rpc("exec_sql", {'sql_query': sql_query}).execute()
+        
+        # Choose the output type based on user's request
+        if request.output_type == "text":
+            return generate_text_output(request.user_query, sql_query, result.data)
+        elif request.output_type == "table":
+            return result.data
+        elif request.output_type == "graph":
+            print(result.data)
+            return generate_graph_output(request.user_query, result.data)
+        else:
+            raise HTTPException(status_code=400, detail="Invalid output type specified")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database query error: {e}")
 
-# To run: `uvicorn script_name:app --reload`
+# To run: `uvicorn llm_query_api:app --reload`
+
+# {
+#     "user_query": "Get all patients above age 40",
+#     "output_type": "text"
+# }
+
