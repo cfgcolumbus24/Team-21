@@ -5,7 +5,6 @@ import NavBar from '../components/NavBar';
 const LandingPage = () => {
   return (
     <div className="min-h-screen w-full bg-gray-50 p-8 flex flex-col gap-6">
-      <NavBar />
       {/* Header: Dashboard Title */}
      
         <div className="order-1 md:order-2 flex justify-center md:justify-end w-full md:w-1/3">
