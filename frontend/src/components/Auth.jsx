@@ -1,10 +1,18 @@
 import { supabase } from '../supabaseClient';
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../supabaseContext';
 
 function Auth() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isSignUp, setIsSignUp] = useState(false);
+
+    const { session } = useAuth();
+
+    if (session) {
+      return <Navigate to="/" replace />;
+    }
 
     const handleAuth = async () => {
         const {error} = isSignUp
@@ -15,7 +23,8 @@ function Auth() {
         if (error) alert(error.message); 
         else { 
             alert(isSignUp ? 'Sign-up successful': 'Logged in successfully!')
-            window.location.href = "/"
+            window.location.href = "/";
+
         };
     }
 
