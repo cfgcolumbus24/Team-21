@@ -1,12 +1,22 @@
 import React, { useState, useRef } from 'react';
+// Import Supabase client
+import { supabase } from '../supabaseClient';
 
 const ProfileSection = () => {
-  // State to control dropdown visibility
   const [showInfo, setShowInfo] = useState(false);
-  const contentRef = useRef(null); // Reference to the dropdown content
+  const contentRef = useRef(null);
 
-  // Function to toggle dropdown visibility
   const toggleInfo = () => setShowInfo(!showInfo);
+
+  // Logout function to sign out of Supabase
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Error signing out:', error.message);
+    } else {
+      console.log('Signed out successfully');
+    }
+  };
 
   return (
     <div className="bg-white shadow-md rounded-lg p-4 text-center w-full">
@@ -18,7 +28,6 @@ const ProfileSection = () => {
       <h2 className="text-xl font-bold">John Doe</h2>
       <p className="text-gray-500">Software Engineer</p>
 
-      {/* Bio/User Info Dropdown Button */}
       <button
         onClick={toggleInfo}
         className="mt-4 mb-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none"
@@ -26,7 +35,6 @@ const ProfileSection = () => {
         Bio / User Info
       </button>
 
-      {/* Smooth Dropdown Content with Scrollable Area */}
       <div
         ref={contentRef}
         style={{
@@ -45,8 +53,9 @@ const ProfileSection = () => {
         </div>
       </div>
 
-      {/* Logout Button */}
+      {/* Logout Button with Supabase Sign-Out Call */}
       <button
+        onClick={handleLogout}
         className="group flex items-center justify-start w-11 h-11 bg-red-600 rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-lg hover:w-32 hover:rounded-lg active:translate-x-1 active:translate-y-1 mt-4 mx-auto"
       >
         <div
