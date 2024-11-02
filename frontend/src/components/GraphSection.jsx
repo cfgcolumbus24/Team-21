@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import MyBarChart from '../components/MyBarChart';
 import LineGraph from '../components/LineGraph';
 import MyPieChart from '../components/MyPieChart';
@@ -20,9 +20,36 @@ const headerStyle = {
 
 
 const GraphSection = () => {
+
+  const [buttonColor, setButtonColor] = useState('bg-green-500');
+  const [data, setData] = useState(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/detect_anomalies');
+        const result = await response.json();
+        if (result.revenue_anomalies || result.expense_anomalies) {
+          setButtonColor('bg-red-500');
+          setData(result);
+        } else {
+          setButtonColor('bg-green-500');
+          setData(null);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
-      
+    
+    <div>
+
     <h1 style={{ 
                 color: 'black',           // Sets the text color
                 fontSize: '36px',         // Sets the font size
@@ -32,6 +59,23 @@ const GraphSection = () => {
             }}>
                 Netcare Access Analytics
     </h1>
+
+    <div className="relative inline-block">
+      <button
+        className={`text-white font-bold py-2 px-4 rounded ${buttonColor} transition duration-300 ease-in-out transform hover:scale-105`}
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        Dynamic Button
+      </button>
+      {showTooltip && data && (
+        <div className="absolute top-full mt-2 px-4 py-2 bg-gray-800 text-white rounded shadow-lg text-sm z-10">
+          {JSON.stringify(data)}
+        </div>
+      )}
+    </div>
+
+    </div>
 
     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
     <MetricCard 
