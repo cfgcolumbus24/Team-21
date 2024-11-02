@@ -8,7 +8,6 @@ import NavBar from '../components/NavBar';
 const LandingPage = () => {
   return (
     <div className="min-h-screen w-full bg-gray-50 p-8 flex flex-col">
-        <NavBar />
         <div className="justify-center w-full">
           <GraphSection />
         </div>
