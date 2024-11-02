@@ -2,10 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-.centeredFlexColumn {
-    width: 45%;
-    height: 400;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
