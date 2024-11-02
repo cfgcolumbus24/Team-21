@@ -88,8 +88,8 @@ def generate_graph_output(user_query: str, data) -> str:
 @app.post("/query")  # Changed to POST here
 async def query_database(data: Dict):
     # Debugging line to confirm received query
-    print(f"Received user query: {data["user_query"]}")
-    print(f"Requested output type: {data["format"]}")
+    #print(f"Received user query: {data["user_query"]}")
+    #print(f"Requested output type: {data["format"]}")
     
     # Step 1: Generate SQL query
     try:
