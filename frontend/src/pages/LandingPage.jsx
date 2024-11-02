@@ -11,7 +11,7 @@ const LandingPage = () => {
       <div style={{ flex: 3, margin: '10px', minWidth: '400px' }}> {/* Larger minimum width for graph */}
             <GraphSection />
         </div>
-        <div style={{ flex: 1, margin: '10px', minWidth: '200px' }}> {/* Ensure minimum width */}
+        <div style={{ flex: 1, marginRight: '20px', marginLeft: '20px', minWidth: '200px', marginTop: '65px' }}> {/* Ensure minimum width */}
             <ProfileSection />
         </div>
     </div>
