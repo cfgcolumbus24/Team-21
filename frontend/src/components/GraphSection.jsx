@@ -82,7 +82,9 @@ const GraphSection = () => {
           display: 'flex', 
           alignItems: 'center',
           flexDirection: 'column',
-          padding: '0 20px 20px 20px'
+          borderRadius: '10px',
+          padding: '0 20px 20px 20px',
+          backgroundColor: 'white'
           
       }}>       
         <h2 style={headerStyle}>Monthly Patient Volume</h2>
@@ -101,7 +103,9 @@ const GraphSection = () => {
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
+          borderRadius: '10px',
           padding: '0 20px 20px 20px',
+          backgroundColor: 'white'
       }}>
         <h2 style={headerStyle}>Demographic Profile of Patients This Month</h2>
         <ResponsiveContainer>
