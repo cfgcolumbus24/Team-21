@@ -85,7 +85,7 @@ def generate_text_output(data, sql_query: str, user_query: str) -> str:
     return output
 
 def generate_graph_output(user_query: str, data) -> str:
-    return
+    return 'This feature is in development'
 
 
 # API Endpoint
@@ -94,6 +94,9 @@ async def query_database(data: Dict):
     # Debugging line to confirm received query
     print(f"Received user query: {data["user_query"]}")
     print(f"Requested output type: {data["format"]}")
+
+    if data['format'] == 'graph':
+        return generate_graph_output(data["user_query"], data)
     
     # Step 1: Generate SQL query
     try:

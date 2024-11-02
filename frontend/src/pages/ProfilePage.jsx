@@ -1,8 +1,16 @@
 import React from 'react';
 import ProfileSection from '../components/ProfileSection';
 import NavBar from '../components/NavBar';
+import { useAuth } from '../supabaseContext';
+import { Navigate } from 'react-router-dom';
 
-const LandingPage = () => {
+const ProfilePage = () => {
+
+    const { session } = useAuth();
+
+    if (!session) {
+        return <Navigate to="/Auth" replace />;
+    }
   return (
     <div className="min-h-screen w-full bg-gray-50 p-8 flex flex-col gap-6">
       {/* Header: Dashboard Title */}
@@ -19,4 +27,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default ProfilePage;
