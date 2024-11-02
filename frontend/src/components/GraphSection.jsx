@@ -53,7 +53,7 @@ const GraphSection = () => {
     color="#ff9800" // Orange for warmth and attention
     icon="👶"
     amount="40"
-    label="NEWBORN SCREENINGS"
+    label="CALL RESPONSE TIME"
     change="🔺 20% Since last month"
 />
 
@@ -61,7 +61,7 @@ const GraphSection = () => {
     color="#2196f3" // Blue for trust and security
     icon="💉"
     amount="450"
-    label="VACCINATIONS ADMINISTERED"
+    label="DONATIONS RECEIVED"
     change="🔺 15% Since last month"
 />
 
