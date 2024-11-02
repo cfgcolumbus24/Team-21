@@ -28,27 +28,25 @@ def detect_anomalies():
     revenue_df = fetch_data("SELECT * FROM Revenue")
     expenses_df = fetch_data("SELECT * FROM Expenses")
 
-    # Preprocess data and run anomaly detection
+    # Preprocess data
     for df in [revenue_df, expenses_df]:
         df['date'] = pd.to_datetime(df['date'])
-        df['year'] = df['date'].dt.year
-        df['month'] = df['date'].dt.month
-        df['day'] = df['date'].dt.day
+        df['timestamp'] = df['date'].astype('int64') // 10**9  # Convert date to UNIX timestamp in seconds
 
     # Run anomaly detection for Revenue
-    revenue_features = revenue_df[['amount']]
+    revenue_features = revenue_df[['amount', 'timestamp']]
     scaler_revenue = StandardScaler()
-    revenue_df['amount_scaled'] = scaler_revenue.fit_transform(revenue_features)
+    revenue_features_scaled = scaler_revenue.fit_transform(revenue_features)
     isolation_forest_low = IsolationForest(contamination=0.01, random_state=42)
-    revenue_df['anomaly'] = isolation_forest_low.fit_predict(revenue_df[['amount_scaled', 'year', 'month', 'day']])
+    revenue_df['anomaly'] = isolation_forest_low.fit_predict(revenue_features_scaled)
     revenue_anomalies = revenue_df[(revenue_df['anomaly'] == -1) & (revenue_df['amount'] < revenue_df['amount'].median())]
 
     # Run anomaly detection for Expenses
-    expenses_features = expenses_df[['amount']]
+    expenses_features = expenses_df[['amount', 'timestamp']]
     scaler_expenses = StandardScaler()
-    expenses_df['amount_scaled'] = scaler_expenses.fit_transform(expenses_features)
+    expenses_features_scaled = scaler_expenses.fit_transform(expenses_features)
     isolation_forest_high = IsolationForest(contamination=0.01, random_state=42)
-    expenses_df['anomaly'] = isolation_forest_high.fit_predict(expenses_df[['amount_scaled', 'year', 'month', 'day']])
+    expenses_df['anomaly'] = isolation_forest_high.fit_predict(expenses_features_scaled)
     expenses_anomalies = expenses_df[(expenses_df['anomaly'] == -1) & (expenses_df['amount'] > expenses_df['amount'].median())]
 
     # Return anomalies as JSON
