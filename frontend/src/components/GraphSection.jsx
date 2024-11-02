@@ -2,6 +2,7 @@ import React from 'react';
 import MyBarChart from '../components/MyBarChart';
 import LineGraph from '../components/LineGraph';
 import MyPieChart from '../components/MyPieChart';
+import MyStackedPieChart from '../components/MyStackedPieChart';
 import { ResponsiveContainer } from 'recharts';
 
 const headerStyle = {
@@ -70,7 +71,7 @@ const GraphSection = () => {
         </ResponsiveContainer>
         <h2 style={headerStyle}>Bar</h2>
         <ResponsiveContainer>
-          <MyBarChart/>
+          <MyStackedPieChart/>
         </ResponsiveContainer>
       </div>
     </div>
