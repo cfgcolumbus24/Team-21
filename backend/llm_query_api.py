@@ -7,6 +7,10 @@ from supabase import create_client, Client
 from fastapi import Query
 from typing import Dict
 from fastapi.middleware.cors import CORSMiddleware
+import pandas as pd
+from sklearn.ensemble import IsolationForest
+from sklearn.preprocessing import StandardScaler
+import os
 
 
 # Load environment variables
@@ -117,11 +121,54 @@ async def query_database(data: Dict):
             raise HTTPException(status_code=400, detail="Invalid output type specified")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database query error: {e}")
+    
 
-# To run: `uvicorn llm_query_api:app --reload`
+# Function to fetch data from Supabase
+def fetch_data(query: str) -> pd.DataFrame:
+   result = supabase.rpc("exec_sql", {"sql_query": query}).execute()
+   return pd.DataFrame(result.data) if result.data else pd.DataFrame()
 
-# {
-#     "user_query": "Get all patients above age 40",
-#     "output_type": "text"
-# }
 
+# Anomaly detection function
+def detect_anomalies():
+   # Fetch data from Supabase
+   revenue_df = fetch_data("SELECT * FROM Revenue")
+   expenses_df = fetch_data("SELECT * FROM Expenses")
+
+
+   # Preprocess data
+   for df in [revenue_df, expenses_df]:
+       df['date'] = pd.to_datetime(df['date'])
+       df['timestamp'] = df['date'].astype('int64') // 10**9  # Convert date to UNIX timestamp in seconds
+
+
+   # Run anomaly detection for Revenue
+   revenue_features = revenue_df[['amount', 'timestamp']]
+   scaler_revenue = StandardScaler()
+   revenue_features_scaled = scaler_revenue.fit_transform(revenue_features)
+   isolation_forest_low = IsolationForest(contamination=0.01, random_state=42)
+   revenue_df['anomaly'] = isolation_forest_low.fit_predict(revenue_features_scaled)
+   revenue_anomalies = revenue_df[(revenue_df['anomaly'] == -1) & (revenue_df['amount'] < revenue_df['amount'].median())]
+
+
+   # Run anomaly detection for Expenses
+   expenses_features = expenses_df[['amount', 'timestamp']]
+   scaler_expenses = StandardScaler()
+   expenses_features_scaled = scaler_expenses.fit_transform(expenses_features)
+   isolation_forest_high = IsolationForest(contamination=0.01, random_state=42)
+   expenses_df['anomaly'] = isolation_forest_high.fit_predict(expenses_features_scaled)
+   expenses_anomalies = expenses_df[(expenses_df['anomaly'] == -1) & (expenses_df['amount'] > expenses_df['amount'].median())]
+
+
+   # Return anomalies as JSON
+   return {
+       "revenue_anomalies": revenue_anomalies[['id', 'date', 'amount']].to_dict(orient="records"),
+       "expenses_anomalies": expenses_anomalies[['id', 'date', 'amount']].to_dict(orient="records")
+   }
+
+
+# Endpoint to get anomalies
+@app.get("/detect_anomalies")
+def get_anomalies():
+   anomalies = detect_anomalies()
+   return anomalies

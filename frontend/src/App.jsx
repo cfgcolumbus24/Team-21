@@ -4,6 +4,7 @@ import GraphPage from './pages/GraphPage';
 import SearchPage from './pages/SearchPage';
 import NavBar from './components/NavBar';
 import ProfilePage from './pages/ProfilePage';
+import GenerateReport from './pages/GenerateReport';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { AuthProvider } from './supabaseContext';
 
@@ -20,6 +21,7 @@ const App = () => {
           <Route path = "/data" element = {<GraphPage/>} />
           <Route path = "/" element = {<SearchPage/>} />
           <Route path = "/profile" element = {<ProfilePage/>} />
+        <Route path = "/report" element = {<GenerateReport/>} />
       </Routes>
       </div>
     </Router>
