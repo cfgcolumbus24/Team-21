@@ -56,7 +56,7 @@ const SearchBar = () => {
             onChange={handleCheckboxChange}
             className="sr-only peer"
           />
-          <span className={`border border-gray-300 rounded-full p-1 ${selectedFormat === 'text' ? 'bg-gray-400' : 'bg-gray-200'} hover:bg-gray-400 transition duration-150`}>
+          <span className={`border border-gray-300 rounded-full p-1 ${selectedFormat === 'text' ? 'bg-gray-500' : 'bg-gray-200'} hover:bg-gray-400 transition duration-150`}>
             Text
           </span>
         </label>
@@ -69,7 +69,7 @@ const SearchBar = () => {
             onChange={handleCheckboxChange}
             className="sr-only peer"
           />
-          <span className={`border border-gray-300 rounded-full p-1 ${selectedFormat === 'table' ? 'bg-gray-400' : 'bg-gray-200'} hover:bg-gray-300 transition duration-150`}>
+          <span className={`border border-gray-300 rounded-full p-1 ${selectedFormat === 'table' ? 'bg-gray-500' : 'bg-gray-200'} hover:bg-gray-400 transition duration-150`}>
             Table
           </span>
         </label>
@@ -82,7 +82,7 @@ const SearchBar = () => {
             onChange={handleCheckboxChange}
             className="sr-only peer"
           />
-          <span className={`border border-gray-300 rounded-full p-1 ${selectedFormat === 'graph' ? 'bg-gray-400' : 'bg-gray-200'} hover:bg-gray-300 transition duration-150`}>
+          <span className={`border border-gray-300 rounded-full p-1 ${selectedFormat === 'graph' ? 'bg-gray-500' : 'bg-gray-200'} hover:bg-gray-400 transition duration-150`}>
             Graph
           </span>
         </label>
